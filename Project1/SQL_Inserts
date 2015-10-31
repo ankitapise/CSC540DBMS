@@ -1,0 +1,63 @@
+delimiter //
+Create TRIGGER Insert_Faculty AFTER Insert on LibraryDb.Patrons FOR EACH ROW IF NEW.category LIKE "%Professor%" THEN Insert Into Faculty Values (new.patron_id); END IF;//
+delimiter ;
+
+
+INSERT INTO Patrons VALUES ("S1","jpink","jpink","Jesse","Pinkman","American","123456789","123456787","1988-10-03","Chemistry","First Year","Male");
+INSERT INTO Patrons VALUES ("S2","wjr","wjr","Walt","Jr.","American","123456780","123456781","1988-11-03","Chemistry","Second Year","Male");
+INSERT INTO Patrons VALUES ("S3","gboet","gboet","Gale","Boetticher","Chile","123456782","123456783","1988-12-03","Chemistry","Third Year","Male");
+INSERT INTO Patrons VALUES ("S4","sgood","sgood","Saul","Goodman","American","123456784","123456785","1988-01-03","Chemistry","Second Year","Male");
+INSERT INTO Patrons VALUES ("F1","wwhite","wwhite","Walter","White","American",NULL,NULL,NULL,"Chemistry","Professor",NULL);
+INSERT INTO Patrons VALUES ("F2","gfring","gfring","Gustavo","Fring","American",NULL,NULL,NULL,"Chemistry","Assistant Professor",NULL);
+INSERT INTO Patrons VALUES ("F3","hschrad","hschrad","Hank","Schrader","American",NULL,NULL,NULL,"Chemistry","Associate Professor",NULL);
+INSERT INTO Patrons VALUES ("F4","swhite","swhite","Skyler","White","American",NULL,NULL,NULL,"Chemistry","Professor",NULL);
+
+INSERT INTO Students VALUES ("S1","BS","Undergraduate");
+INSERT INTO Students VALUES ("S2","BS","Undergraduate");
+INSERT INTO Students VALUES ("S3","BS","Undergraduate");
+INSERT INTO Students VALUES ("S4","MS","Graduate");
+
+INSERT INTO Patron_Addresses VALUES ("S1","1511 Graduate Lane","NC",27606,"Raleigh");
+INSERT INTO Patron_Addresses VALUES ("S2","1512 Graduate Lane","NC",27606,"Raleigh");
+INSERT INTO Patron_Addresses VALUES ("S3","1513 Graduate Lane","NC",27606,"Raleigh");
+INSERT INTO Patron_Addresses VALUES ("S4","1514 Graduate Lane","NC",27606,"Raleigh");
+
+INSERT INTO Courses VALUES ("CH101","F1","Introduction to Chemistry");
+INSERT INTO Courses VALUES ("CH102","F2","Introduction to Organic Chemistry");
+INSERT INTO Courses VALUES ("CH103","F3","Introduction to Physical Chemistry");
+INSERT INTO Courses VALUES ("CH104","F4","Introduction to Inorganic Chemistry");
+
+INSERT INTO Enrolled_in VALUES ("S1","CH101");
+INSERT INTO Enrolled_in VALUES ("S2","CH101");
+INSERT INTO Enrolled_in VALUES ("S3","CH101");
+INSERT INTO Enrolled_in VALUES ("S2","CH102");
+INSERT INTO Enrolled_in VALUES ("S3","CH102");
+INSERT INTO Enrolled_in VALUES ("S4","CH102");
+INSERT INTO Enrolled_in VALUES ("S3","CH103");
+INSERT INTO Enrolled_in VALUES ("S4","CH103");
+INSERT INTO Enrolled_in VALUES ("S1","CH103");
+INSERT INTO Enrolled_in VALUES ("S1","CH104");
+INSERT INTO Enrolled_in VALUES ("S2","CH104");
+INSERT INTO Enrolled_in VALUES ("S4","CH104");
+
+INSERT INTO Teaches VALUES ("F1","CH101");
+INSERT INTO Teaches VALUES ("F2","CH102");
+INSERT INTO Teaches VALUES ("F3","CH103");
+INSERT INTO Teaches VALUES ("F4","CH104");
+
+INSERT INTO Cameras VALUES ("CA1","Olympus","E-620","16G","14­42mm lens 1:3.5­5.6");
+INSERT INTO Cameras VALUES ("CA2","Canon","EOS Rebel T4i","32G","18­135mm EF­S IS STM Lens");
+INSERT INTO Cameras VALUES ("CA3","Canon","EOS Rebel T4i","32G","18­135mm EF­S IS STM Lens");
+
+INSERT INTO Libraries VALUES (1,"D. H. Hill");
+INSERT INTO Libraries VALUES (2,"J. B. Hunt");
+
+INSERT INTO Library_Cameras VALUES ("CA1",2,"Available");
+INSERT INTO Library_Cameras VALUES ("CA2",2,"Available");
+INSERT INTO Library_Cameras VALUES ("CA3",2,"Checked Out");
+
+INSERT INTO Cam_checkout VALUES ("S3","CA2","2015-10-30","2015-11-05");
+INSERT INTO Cam_checkout VALUES ("S1","CA1","2015-11-06","2015-11-12");
+INSERT INTO Cam_checkout VALUES ("S2","CA3","2015-10-16","2015-10-22");
+
+
