@@ -389,17 +389,17 @@ UNLOCK TABLES;
 -- Table structure for table `Patron_Addresses`
 --
 
-DROP TABLE IF EXISTS `Patron_Addresses`;
+DROP TABLE IF EXISTS `Student_Addresses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Patron_Addresses` (
-  `patron_id` varchar(50) NOT NULL,
+CREATE TABLE `Student_Addresses` (
+  `student_id` varchar(50) NOT NULL,
   `address_line1` varchar(100) NOT NULL,
   `address_line2` varchar(200) DEFAULT NULL,
   `postal_code` int(11) NOT NULL,
-  `city` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`patron_id`,`address_line1`,`postal_code`),
-  CONSTRAINT `Patron_Addresses_ibfk_1` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`) ON DELETE CASCADE
+  `city` varchar(30) NOT NULL,
+  PRIMARY KEY (`student_id`,`address_line1`,`postal_code`),
+  CONSTRAINT `Patron_Addresses_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `Patrons` (`patron_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -407,10 +407,10 @@ CREATE TABLE `Patron_Addresses` (
 -- Dumping data for table `Patron_Addresses`
 --
 
-LOCK TABLES `Patron_Addresses` WRITE;
-/*!40000 ALTER TABLE `Patron_Addresses` DISABLE KEYS */;
-INSERT INTO `Patron_Addresses` VALUES ('S1','1511 Graduate Lane','NC',27606,'Raleigh'),('S2','1512 Graduate Lane','NC',27606,'Raleigh'),('S3','1513 Graduate Lane','NC',27606,'Raleigh'),('S4','1514 Graduate Lane','NC',27606,'Raleigh');
-/*!40000 ALTER TABLE `Patron_Addresses` ENABLE KEYS */;
+LOCK TABLES `Student_Addresses` WRITE;
+/*!40000 ALTER TABLE `Student_Addresses` DISABLE KEYS */;
+INSERT INTO `Student_Addresses` VALUES ('S1','1511 Graduate Lane','NC',27606,'Raleigh'),('S2','1512 Graduate Lane','NC',27606,'Raleigh'),('S3','1513 Graduate Lane','NC',27606,'Raleigh'),('S4','1514 Graduate Lane','NC',27606,'Raleigh');
+/*!40000 ALTER TABLE `Student_Addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
