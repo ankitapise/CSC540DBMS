@@ -46,29 +46,6 @@ LOCK TABLES `Accounts` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Authors`
---
-
-DROP TABLE IF EXISTS `Authors`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Authors` (
-  `author_name` varchar(100) NOT NULL,
-  PRIMARY KEY (`author_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Authors`
---
-
-LOCK TABLES `Authors` WRITE;
-/*!40000 ALTER TABLE `Authors` DISABLE KEYS */;
-INSERT INTO `LibraryDb`.`Authors` VALUES ('SK Goyal'),('HC Verma'),('Resnick Halliday Walker'),('RC Mukherjee'),('Roberto Navigli'),('Tim Berners Lee'),('HyeongSik Kim'),('Sidan Gao');
-/*!40000 ALTER TABLE `Authors` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Books`
 --
 
@@ -474,9 +451,7 @@ CREATE TABLE `Pub_Authors` (
   `pub_id` varchar(50) NOT NULL,
   `author_name` varchar(100) NOT NULL,
   PRIMARY KEY (`pub_id`,`author_name`),
-  KEY `author_name` (`author_name`),
-  CONSTRAINT `Pub_Authors_ibfk_1` FOREIGN KEY (`pub_id`) REFERENCES `Publications` (`pub_id`),
-  CONSTRAINT `Pub_Authors_ibfk_2` FOREIGN KEY (`author_name`) REFERENCES `Authors` (`author_name`)
+  CONSTRAINT `Pub_Authors_ibfk_1` FOREIGN KEY (`pub_id`) REFERENCES `Publications` (`pub_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
