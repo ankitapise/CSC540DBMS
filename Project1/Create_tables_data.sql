@@ -403,7 +403,7 @@ CREATE TABLE `Patrons` (
   `password` varchar(20) NOT NULL,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
-  `nationality` varchar(45) DEFAULT NULL,
+  `nationality` varchar(45) NOT NULL,
   `phone_no` char(20) DEFAULT NULL,
   `alternate_phone` char(20) DEFAULT NULL,
   `DOB` date DEFAULT NULL,
@@ -507,7 +507,7 @@ CREATE TABLE `Publications` (
   `title` varchar(100) NOT NULL,
   `pub_year` year(4) NOT NULL,
   `category` enum('Book','Conference Proceeding','Journal') NOT NULL,
-  `e_copy` tinyint(1) DEFAULT NULL,
+  `e_copy` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`pub_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
