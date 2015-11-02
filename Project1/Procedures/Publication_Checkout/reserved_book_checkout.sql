@@ -4,7 +4,12 @@ CREATE PROCEDURE `reserved_book_checkout` (
     OUT reserved_book_checkout_status tinyint(2)
 )
 BEGIN
-	SET @reserved_student = (
+	SET @availability = (
+		SELECT P.number_available
+        FROM Publications P
+        WHERE (P.pub_id = pub_id)
+    );
+    SET @reserved_student = (
 		SELECT PU.pub_id
 		FROM Publications PU
 		WHERE (PU.pub_id = pub_id) AND PU.title IN (SELECT DISTINCT C.book_name
@@ -12,16 +17,16 @@ BEGIN
 			  WHERE (P.patron_id = patron_id) AND (P.patron_id = S.student_id)
 			  AND (P.patron_id = E.student_id) AND (E.course_id = C.course_id))
     );
+    SET @already_existing = (
+        SELECT P.patron_id
+        FROM Pub_checkout PC INNER JOIN Patrons P
+        WHERE (P.patron_id = patron_id) AND (P.patron_id = PC.patron_id)
+              AND (PC.pub_id = pub_id)
+    );
     IF(@reserved_student IS NULL) THEN
 		SET reserved_book_checkout_status = 3;
 	ELSE
 		BEGIN
-			SET @already_existing = (
-				SELECT P.patron_id
-                FROM Pub_checkout PC INNER JOIN Patrons P
-                WHERE (P.patron_id = patron_id) AND (P.patron_id = PC.patron_id)
-					  AND (PC.pub_id = pub_id)
-            );
             IF(@already_existing IS NULL) THEN
 				BEGIN
 					INSERT INTO Pub_Checkout 
