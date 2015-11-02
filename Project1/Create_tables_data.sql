@@ -179,6 +179,23 @@ INSERT INTO `Courses` VALUES ('CH101','F1','Introduction to Chemistry'),('CH102'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `E_copy_checkout`
+--
+
+DROP TABLE IF EXISTS `E_copy_checkout`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `E_copy_checkout` (
+	`pub_id` varchar(50) NOT NULL,
+    `patron_id` varchar(50) NOT NULL,
+    `checkout` datetime DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`pub_id`,`patron_id`),
+    CONSTRAINT `E_copy_checkout_ibfk_1` FOREIGN KEY (`pub_id`) REFERENCES `Publications` (`pub_id`),
+    CONSTRAINT `E_copy_checkout_ibfk_2` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `Enrolled_in`
 --
 
@@ -508,6 +525,7 @@ CREATE TABLE `Publications` (
   `pub_year` year(4) NOT NULL,
   `category` enum('Book','Conference Proceeding','Journal') NOT NULL,
   `e_copy` tinyint(1) DEFAULT 0,
+  `number_available` smallint(6),
   PRIMARY KEY (`pub_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -518,7 +536,7 @@ CREATE TABLE `Publications` (
 
 LOCK TABLES `Publications` WRITE;
 /*!40000 ALTER TABLE `Publications` DISABLE KEYS */;
-INSERT INTO `LibraryDb`.`Publications` VALUES ('B1','Introduction to Chemistry',2005,'Book',1),('B2','Introduction to Organic Chemistry',2006,'Book',1),('B3','Introduction to Physical Chemistry',2000,'Book',0),('B4','Introduction to Inorganic Chemistry',2005,'Book',0),('J1','Journal of Web Semantic',2010,'Journal',NULL),('J2','International Journal on Semantic Web and Information',2011,'Journal',NULL),('C1','Optimization Techniques for Large Scale Graph Analytics on Map Reduce',2013,'Conference Proceeding',NULL),('C2','An agglomerative query model for discovery in linked data: semantics and approach',2014,'Conference Proceeding',NULL);
+INSERT INTO `LibraryDb`.`Publications` VALUES ('B1','Introduction to Chemistry',2005,'Book',1,2),('B2','Introduction to Organic Chemistry',2006,'Book',1,2),('B3','Introduction to Physical Chemistry',2000,'Book',0,2),('B4','Introduction to Inorganic Chemistry',2005,'Book',0,2),('J1','Journal of Web Semantic',2010,'Journal',1,1),('J2','International Journal on Semantic Web and Information',2011,'Journal',1,1),('C1','Optimization Techniques for Large Scale Graph Analytics on Map Reduce',2013,'Conference Proceeding',1,1),('C2','An agglomerative query model for discovery in linked data: semantics and approach',2014,'Conference Proceeding',1,1);
 /*!40000 ALTER TABLE `Publications` ENABLE KEYS */;
 UNLOCK TABLES;
 
