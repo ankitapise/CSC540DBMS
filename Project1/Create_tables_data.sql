@@ -162,9 +162,10 @@ DROP TABLE IF EXISTS `Courses`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Courses` (
   `course_id` varchar(20) NOT NULL,
+  `faculty_id` varchar(50) DEFAULT NULL,
   `book_name` varchar(50) NOT NULL,
-  `department` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`course_id`)
+  PRIMARY KEY (`course_id`),
+  CONSTRAINT `Courses_ibfk_1` FOREIGN KEY(`faculty_id`) REFERENCES `Faculty` (`faculty_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -492,8 +493,8 @@ DROP TABLE IF EXISTS `Pub_checkout`;
 CREATE TABLE `Pub_checkout` (
   `patron_id` varchar(50) NOT NULL,
   `pub_id` varchar(50) NOT NULL,
-  `out_date` date NOT NULL,
-  `due_date` date NOT NULL,
+  `out_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `due_date` datetime NOT NULL,
   `status` varchar(25) NOT NULL,
   PRIMARY KEY (`patron_id`,`pub_id`),
   KEY `pub_id` (`pub_id`),
