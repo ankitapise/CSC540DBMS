@@ -20,9 +20,17 @@ BEGIN
         WHERE P.user_id = user_id
     );
     Update Patrons P, Student_Addresses SA
-    SET P.password = password, P.first_name = first_name, P.last_name = last_name,
-		P.nationality = nationality, P.phone_no = phone_no, P.alternate_phone = alternate_phone,
-        P.DOB = DOB, P.sex = sex, SA.address_line1 = address_line1, SA.address_line2 = address_line2,
-        SA.city = city, SA.postal_code = postal_code
-	WHERE (P.patron_id = @pid) AND (SA.student_id = @pid);
+    SET P.password = COALESCE(password,P.password), 
+		P.first_name = COALESCE(first_name,P.first_name),
+        P.last_name = COALESCE(last_name,P.last_name),
+		P.nationality = COALESCE(nationality, P.nationality), 
+        P.phone_no = phone_no, P.alternate_phone = alternate_phone, P.DOB = DOB, P.sex = sex, 
+        SA.address_line1 = COALESCE(address_line1,SA.address_line1), 
+        SA.address_line2 = address_line2,
+        SA.city = COALESCE(city,SA.city), 
+        SA.postal_code = COALESCE(postal_code,SA.postal_code)
+	WHERE (P.patron_id = @pid) AND (SA.student_id = @pid) AND (CHAR_LENGTH(password) !=0) 
+    AND (CHAR_LENGTH(first_name) != 0) AND (CHAR_LENGTH(last_name) != 0) 
+    AND (CHAR_LENGTH(nationality) != 0) AND (CHAR_LENGTH(address_line1) !=0)
+    AND (CHAR_LENGTH(city) !=0) AND (CHAR_LENGTH(postal_code) !=0);
 END
