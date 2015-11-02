@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import ="java.sql.*" %>
+<%@page import ="java.sql.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,7 +38,7 @@
                 <tbody>
                     <tr>
                         <td>Username: </td>
-                        <td><input type="text" name="user_id" size="20" value="<%= rs.getString(1)%>"/></td>
+                        <td><%= rs.getString(1)%></td>
                     </tr>
                     <tr>
                         <td>Password: </td>
