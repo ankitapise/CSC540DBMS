@@ -28,6 +28,7 @@
 		{
 		}
 		});
+		window.location.href="Regular_checkout.jsp";
 	}
       </script>
     </head>
