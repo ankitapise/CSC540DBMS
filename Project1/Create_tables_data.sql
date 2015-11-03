@@ -509,7 +509,7 @@ CREATE TABLE `Pub_checkout` (
 
 LOCK TABLES `Pub_checkout` WRITE;
 /*!40000 ALTER TABLE `Pub_checkout` DISABLE KEYS */;
-INSERT INTO `Pub_checkout` VALUES ('S1','B2','2015-11-01','2015-11-08','Available'),('S4','B4','2015-11-01','2015-11-06','Available'),('S2','B2','2015-07-01','2015-08-08','Available'),('S3','B2','2015-10-01','2015-10-10','Available');
+INSERT INTO `Pub_checkout` VALUES ('S1','B2','2015-11-01','2015-11-08','Available'),('S4','B4','2015-11-01','2015-11-06','Available'),('S2','B4','2015-07-01','2015-08-08','Available'),('S3','B2','2015-10-01','2015-10-10','Available');
 /*!40000 ALTER TABLE `Pub_checkout` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -597,6 +597,44 @@ LOCK TABLES `Students` WRITE;
 INSERT INTO `Students` VALUES ('S1','BS','Undergraduate'),('S2','BS','Undergraduate'),('S3','BS','Undergraduate'),('S4','MS','Graduate');
 /*!40000 ALTER TABLE `Students` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `Student_waitlist`
+--
+
+DROP TABLE IF EXISTS `Student_waitlist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `LibraryDb`.`Student_waitlist` (
+  `student_id` VARCHAR(50) NOT NULL,
+  `pub_id` VARCHAR(50) NOT NULL,
+  `queue_position` INT NULL AUTO_INCREMENT,
+  KEY (`queue_position`),
+  PRIMARY KEY (`student_id`, `pub_id`),
+  INDEX `pub_id_idx` (`pub_id` ASC),
+  CONSTRAINT `Student_waitlist_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `Students` (`student_id`) ON DELETE CASCADE,
+  CONSTRAINT `Student_waitlist_ibfk_2` FOREIGN KEY (`pub_id`) REFERENCES `Publications` (`pub_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Faculty_waitlist`
+--
+
+DROP TABLE IF EXISTS `Faculty_waitlist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `LibraryDb`.`Faculty_waitlist` (
+  `faculty_id` VARCHAR(50) NOT NULL,
+  `pub_id` VARCHAR(50) NOT NULL,
+  `queue_position` INT NULL AUTO_INCREMENT,
+  KEY (`queue_position`),
+  PRIMARY KEY (`faculty_id`, `pub_id`),
+  INDEX `pub_id_idx` (`pub_id` ASC),
+  CONSTRAINT `Faculty_waitlist_ibfk_1` FOREIGN KEY (`faculty_id`) REFERENCES `Faculty` (`faculty_id`) ON DELETE CASCADE,
+  CONSTRAINT `Faculty_waitlist_ibfk_2` FOREIGN KEY (`pub_id`) REFERENCES `Publications` (`pub_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `Teaches`

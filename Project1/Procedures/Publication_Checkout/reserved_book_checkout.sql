@@ -27,18 +27,26 @@ BEGIN
 		SET reserved_book_checkout_status = 3;
 	ELSE
 		BEGIN
-            IF(@already_existing IS NULL) THEN
-				BEGIN
-					INSERT INTO Pub_Checkout 
-                    VALUES (patron_id, pub_id, default, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 4 HOUR),
-                    'Not Returned');
-                    UPDATE Publications P
-                    SET P.number_available = P.number_available - 1
-                    WHERE (P.pub_id = pub_id);
-                    SET reserved_book_checkout_status = 1;
-                END;
+            IF(@availability > 0) THEN
+                IF(@already_existing IS NULL) THEN
+				    BEGIN
+					   INSERT INTO Pub_Checkout 
+                        VALUES (patron_id, pub_id, default, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 4 HOUR),
+                        'Not Returned');
+                        UPDATE Publications P
+                        SET P.number_available = P.number_available - 1
+                        WHERE (P.pub_id = pub_id);
+                        SET reserved_book_checkout_status = 1;
+                    END;
+                ELSE
+				    SET reserved_book_checkout_status = 2;
+                END IF;
             ELSE
-				SET reserved_book_checkout_status = 2;
+                BEGIN
+                    INSERT INTO Student_waitlist (student_id, pub_id) 
+                    VALUES (patron_id,pub_id);
+                    SET reserved_book_checkout_status = 0;
+                END;
             END IF;
         END;
     END IF;
