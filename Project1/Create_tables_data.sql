@@ -82,8 +82,8 @@ DROP TABLE IF EXISTS `Cam_checkout`;
 CREATE TABLE `Cam_checkout` (
   `patron_id` varchar(50) NOT NULL,
   `cam_id` varchar(25) NOT NULL,
-  `out_date` date NOT NULL,
-  `due_date` date NOT NULL,
+  `out_date` datetime NOT NULL,
+  `due_date` datetime NOT NULL,
   PRIMARY KEY (`patron_id`,`cam_id`),
   KEY `cam_id` (`cam_id`),
   CONSTRAINT `Cam_checkout_ibfk_1` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`),
@@ -100,6 +100,25 @@ LOCK TABLES `Cam_checkout` WRITE;
 INSERT INTO `Cam_checkout` VALUES ('S1','CA1','2015-11-06','2015-11-12'),('S2','CA3','2015-10-16','2015-10-22'),('S3','CA2','2015-10-30','2015-11-05');
 /*!40000 ALTER TABLE `Cam_checkout` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `Cam_waitlist`
+--
+
+DROP TABLE IF EXISTS `Cam_waitlist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Cam_waitlist` (
+	`cam_id` varchar(25) NOT NULL,
+    `patron_id` varchar(50) NOT NULL,
+    `out_date` datetime NOT NULL,
+    `position` int AUTO_INCREMENT,
+    PRIMARY KEY(`cam_id`,`patron_id`),
+    KEY(`position`),
+    CONSTRAINT `Cam_waitlist_ibfk_1` FOREIGN KEY (`cam_id`) REFERENCES Cameras (`cam_id`),
+    CONSTRAINT `Cam_waitlist_ibfk_2` FOREIGN KEY (`patron_id`) REFERENCES Patrons (`patron_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `Cameras`
