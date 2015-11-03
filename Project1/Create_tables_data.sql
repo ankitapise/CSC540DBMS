@@ -113,7 +113,7 @@ CREATE TABLE `Cam_waitlist` (
     `patron_id` varchar(50) NOT NULL,
     `out_date` datetime NOT NULL,
     `position` int AUTO_INCREMENT,
-    PRIMARY KEY(`cam_id`,`patron_id`),
+    PRIMARY KEY(`cam_id`,`patron_id`,`out_date`),
     KEY(`position`),
     CONSTRAINT `Cam_waitlist_ibfk_1` FOREIGN KEY (`cam_id`) REFERENCES Cameras (`cam_id`),
     CONSTRAINT `Cam_waitlist_ibfk_2` FOREIGN KEY (`patron_id`) REFERENCES Patrons (`patron_id`)
@@ -324,7 +324,7 @@ DROP TABLE IF EXISTS `Library_Cameras`;
 CREATE TABLE `Library_Cameras` (
   `cam_id` varchar(25) NOT NULL,
   `lib_id` smallint(6) NOT NULL,
-  `status` varchar(25) NOT NULL,
+  `status` enum ('Available','Checked Out') NOT NULL,
   PRIMARY KEY (`cam_id`,`lib_id`),
   KEY `lib_id` (`lib_id`),
   CONSTRAINT `Library_Cameras_ibfk_1` FOREIGN KEY (`cam_id`) REFERENCES `Cameras` (`cam_id`),
