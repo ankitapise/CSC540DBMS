@@ -13,8 +13,8 @@ BEGIN
     CREATE TABLE Temp
     SELECT C.patron_id,@queuePosition := @queuePosition + 1 AS queuePosition
 	FROM Cam_waitlist C
-	WHERE C.cam_id = cam_id
-    ORDER BY C.position;
+	WHERE (C.cam_id = cam_id) AND (C.out_date = out_date)
+    ORDER BY C.out_date,C.position;
     
     ALTER TABLE Temp AUTO_INCREMENT = 1;
     
