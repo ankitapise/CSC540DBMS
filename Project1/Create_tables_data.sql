@@ -84,7 +84,7 @@ CREATE TABLE `Cam_checkout` (
   `cam_id` varchar(25) NOT NULL,
   `out_date` datetime NOT NULL,
   `due_date` datetime NOT NULL,
-  PRIMARY KEY (`patron_id`,`cam_id`),
+  PRIMARY KEY (`patron_id`,`cam_id`,`out_date`),
   KEY `cam_id` (`cam_id`),
   CONSTRAINT `Cam_checkout_ibfk_1` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`),
   CONSTRAINT `Cam_checkout_ibfk_2` FOREIGN KEY (`cam_id`) REFERENCES `Cameras` (`cam_id`)
