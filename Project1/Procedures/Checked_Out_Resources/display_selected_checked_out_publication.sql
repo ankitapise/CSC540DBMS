@@ -1,5 +1,6 @@
 CREATE PROCEDURE `display_selected_checked_out_publication` (
-	IN pub_id varchar(50)
+	IN pub_id varchar(50),
+    IN patron_id varchar(50)
 )
 BEGIN
 	SET @category = (
