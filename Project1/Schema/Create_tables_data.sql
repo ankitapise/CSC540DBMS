@@ -571,10 +571,10 @@ CREATE TABLE `Room_Reservations` (
   `patron_id` varchar(50) NOT NULL,
   `lib_id` smallint(6) NOT NULL,
   `room_no` varchar(6) NOT NULL,
-  `date` date NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL,
-  PRIMARY KEY (`patron_id`,`lib_id`,`room_no`),
+  `start_time` datetime NOT NULL,
+  `end_time` datetime NOT NULL,
+  `status` enum('Reserved','CheckedIn','Nulled') NOT NULL DEFAULT 'Reserved',
+  PRIMARY KEY (`patron_id`,`start_time`,`end_time`),
   KEY `lib_id` (`lib_id`,`room_no`),
   CONSTRAINT `Room_Reservations_ibfk_1` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`),
   CONSTRAINT `Room_Reservations_ibfk_2` FOREIGN KEY (`lib_id`, `room_no`) REFERENCES `Library_Rooms` (`lib_id`, `room_no`)
@@ -587,7 +587,7 @@ CREATE TABLE `Room_Reservations` (
 
 LOCK TABLES `Room_Reservations` WRITE;
 /*!40000 ALTER TABLE `Room_Reservations` DISABLE KEYS */;
-INSERT INTO `Room_Reservations` VALUES ('F1',1,'R3','2015-10-10','09:00:00','11:30:00'),('S1',2,'R5','2015-10-12','15:00:00','17:00:00'),('F4',1,'R6','2015-10-15','11:00:00','13:30:00'),('F2',2,'R1','2015-10-20','09:00:00','10:30:00');
+INSERT INTO `Room_Reservations` VALUES ('F1',1,'R3','2015-11-01 09:00:00','2015-11-01 11:30:00',default),('S1',2,'R5','2015-10-12 15:00:00','2015-10-12 17:00:00',default),('F4',1,'R6','2015-11-02 11:00:00','2015-11-02 13:30:00',default),('F2',2,'R1','2015-10-20 09:00:00','2015-10-20 10:30:00',default);
 /*!40000 ALTER TABLE `Room_Reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
