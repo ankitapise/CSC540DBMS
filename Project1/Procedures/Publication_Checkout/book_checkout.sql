@@ -39,8 +39,13 @@ BEGIN
 			SET book_checkout_status = 2;
 		END IF;
 	ELSE
-		BEGIN
-			-- Add code for not available
-		END;
+		IF(@student IS NULL) THEN
+			INSERT INTO Faculty_waitlist (faculty_id, pub_id) 
+			VALUES (patron_id,pub_id);
+		ELSE
+			INSERT INTO Student_waitlist (student_id, pub_id) 
+			VALUES (patron_id,pub_id);
+		END IF;
+        SET book_checkout_status = 0;
 	END IF;
 END
