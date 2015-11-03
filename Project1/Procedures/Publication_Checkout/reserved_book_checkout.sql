@@ -30,7 +30,7 @@ BEGIN
             IF(@availability > 0) THEN
                 IF(@already_existing IS NULL) THEN
 				    BEGIN
-					   INSERT INTO Pub_Checkout 
+					   INSERT INTO Pub_checkout 
                         VALUES (patron_id, pub_id, default, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 4 HOUR),
                         'Not Returned');
                         UPDATE Publications P
