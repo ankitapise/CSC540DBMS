@@ -21,7 +21,7 @@
         <%
             String pub_id = request.getParameter("pub_id");
             Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb?" + "user=root&password=localhost_123");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LibraryDb?" + "user=root&password=root");
             CallableStatement cstmt = conn.prepareCall("{call display_selected_publication(?)}");
             cstmt.setString(1,pub_id);
             ResultSet rs = cstmt.executeQuery();

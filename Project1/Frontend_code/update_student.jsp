@@ -35,7 +35,7 @@
             try 
                 {
                     Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
-                    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb?" + "user=root&password=localhost_123");
+                    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LibraryDb?" + "user=root&password=root");
                     CallableStatement cstmt = conn.prepareCall("{call update_student_profile(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
                     cstmt.setString(1,session.getAttribute("user_id").toString());
                     cstmt.setString(2,password);

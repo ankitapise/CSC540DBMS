@@ -10,7 +10,26 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
         <title>Request Publication - NCSU Libraries</title>
+    <script>
+    
+    function fetchfile(pub_id,patron_id)
+	{
+		$.ajax
+		({
+		type: "POST",
+		url: "Regular_Checkout",
+		data:{ pub_id: pub_id, patron_id: patron_id },
+			
+		success: function(msg)
+		{
+		}
+		});
+	}
+      </script>
     </head>
     <body>
         <div>
@@ -21,7 +40,7 @@
         <%
             String pub_id = request.getParameter("pub_id");
             Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb?" + "user=root&password=localhost_123");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LibraryDb?" + "user=root&password=root");
             CallableStatement cstmt = conn.prepareCall("{call display_selected_publication(?)}");
             cstmt.setString(1,pub_id);
             ResultSet rs = cstmt.executeQuery();
@@ -31,7 +50,7 @@
         %>
         <div>
             <center>
-                
+                <span class="status"></span>
                 <table border="1" cellpadding="5" cellspacing="2">
                     <thead>
                     <th colspan="3"> Publications Details </th>
@@ -50,6 +69,7 @@
                     }
                 %>
                 <tr>
+                  <td><input type="button" value="Checkout Publication" id="click" name="click" onclick="fetchfile('<%=request.getParameter("pub_id")%>','<%=session.getAttribute("patron_id")%>')"></form></td>
                     <td><form method="post" action="e_copy_checkout.jsp"><input type="submit" value="Checkout E-copy"></form></td>
                 </tr>
                 <tr>
