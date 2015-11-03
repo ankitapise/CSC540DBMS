@@ -12,7 +12,7 @@
         String username = request.getParameter("username");   
         String password = request.getParameter("password");
         Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb?" + "user=root&password=localhost_123");    
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LibraryDb?" + "user=root&password=root");    
         CallableStatement cst = conn.prepareCall("{call login_faculty(?,?)}");
         cst.setString(1, username);
         cst.setString(2, password);

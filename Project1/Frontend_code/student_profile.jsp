@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import ="java.sql.*" %>
+<%@page import ="java.sql.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,7 +20,7 @@
         </div>
         <%
             Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb?" + "user=root&password=localhost_123");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/LibraryDb?" + "user=root&password=root");
             CallableStatement cstmt = conn.prepareCall("{call display_student_profile(?)}");
             cstmt.setString(1,session.getAttribute("user_id").toString());
             ResultSet rs = cstmt.executeQuery();
@@ -38,7 +38,7 @@
                 <tbody>
                     <tr>
                         <td>Username: </td>
-                        <td><input type="text" name="user_id" size="20" value="<%= rs.getString(1)%>"/></td>
+                        <td><%= rs.getString(1)%></td>
                     </tr>
                     <tr>
                         <td>Password: </td>
