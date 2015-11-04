@@ -627,7 +627,8 @@ DROP TABLE IF EXISTS `Student_waitlist`;
 CREATE TABLE `LibraryDb`.`Student_waitlist` (
   `student_id` VARCHAR(50) NOT NULL,
   `pub_id` VARCHAR(50) NOT NULL,
-  `queue_position` INT NULL AUTO_INCREMENT,
+  `out_date` datetime NOT NULL,
+  `position` INT NULL AUTO_INCREMENT,
   KEY (`queue_position`),
   PRIMARY KEY (`student_id`, `pub_id`),
   INDEX `pub_id_idx` (`pub_id` ASC),
@@ -646,7 +647,8 @@ DROP TABLE IF EXISTS `Faculty_waitlist`;
 CREATE TABLE `LibraryDb`.`Faculty_waitlist` (
   `faculty_id` VARCHAR(50) NOT NULL,
   `pub_id` VARCHAR(50) NOT NULL,
-  `queue_position` INT NULL AUTO_INCREMENT,
+  `out_date` datetime NOT NULL,
+  `position` INT NULL AUTO_INCREMENT,
   KEY (`queue_position`),
   PRIMARY KEY (`faculty_id`, `pub_id`),
   INDEX `pub_id_idx` (`pub_id` ASC),
