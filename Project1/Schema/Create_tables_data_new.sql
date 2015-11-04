@@ -27,21 +27,20 @@ DROP TABLE IF EXISTS `Accounts`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Accounts` (
   `patron_id` varchar(50) NOT NULL,
-  `lib_id` smallint(6) NOT NULL,
   `due_balance` float(10,2) NOT NULL,
-  PRIMARY KEY (`patron_id`,`lib_id`),
-  KEY `lib_id` (`lib_id`),
-  CONSTRAINT `Accounts_ibfk_1` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`),
-  CONSTRAINT `Accounts_ibfk_2` FOREIGN KEY (`lib_id`) REFERENCES `Libraries` (`lib_id`)
+  `credit` float(10,2) default NULL,
+  `last_cleared_date` datetime, 
+  PRIMARY KEY (`patron_id`),
+  CONSTRAINT `Accounts_ibfk_1` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Dumping data for table `Accounts`
 --
 
 LOCK TABLES `Accounts` WRITE;
 /*!40000 ALTER TABLE `Accounts` DISABLE KEYS */;
+INSERT INTO ACCOUNTS VALUES ('S1',0,0,NULL),('S2',0,0,NULL),('S3',0,0,NULL),('S4',0,0,NULL),('F1',0,0,NULL),('F2',0,0,NULL),('F3',0,0,NULL),('F4',0,0,NULL);
 /*!40000 ALTER TABLE `Accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,6 +83,7 @@ CREATE TABLE `Cam_checkout` (
   `cam_id` varchar(25) NOT NULL,
   `out_date` datetime NOT NULL,
   `due_date` datetime NOT NULL,
+  `return_date` datetime DEFAULT NULL,
   PRIMARY KEY (`patron_id`,`cam_id`,`out_date`),
   KEY `cam_id` (`cam_id`),
   CONSTRAINT `Cam_checkout_ibfk_1` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`),
@@ -97,7 +97,7 @@ CREATE TABLE `Cam_checkout` (
 
 LOCK TABLES `Cam_checkout` WRITE;
 /*!40000 ALTER TABLE `Cam_checkout` DISABLE KEYS */;
-INSERT INTO `Cam_checkout` VALUES ('S1','CA1','2015-11-06','2015-11-12'),('S2','CA3','2015-10-16','2015-10-22'),('S3','CA2','2015-10-30','2015-11-05');
+INSERT INTO `Cam_checkout` VALUES ('S1','CA1','2015-11-06','2015-11-12',default),('S2','CA3','2015-10-16','2015-10-22',default),('S3','CA2','2015-10-30','2015-11-05',default);
 /*!40000 ALTER TABLE `Cam_checkout` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -208,7 +208,7 @@ DROP TABLE IF EXISTS `E_copy_checkout`;
 CREATE TABLE `E_copy_checkout` (
 	`pub_id` varchar(50) NOT NULL,
     `patron_id` varchar(50) NOT NULL,
-    `checkout` datetime DEFAULT CURRENT_TIMESTAMP,
+    `checkout` datetime,
     PRIMARY KEY (`pub_id`,`patron_id`),
     CONSTRAINT `E_copy_checkout_ibfk_1` FOREIGN KEY (`pub_id`) REFERENCES `Publications` (`pub_id`),
     CONSTRAINT `E_copy_checkout_ibfk_2` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`)
@@ -447,6 +447,7 @@ CREATE TABLE `Patrons` (
   `department` varchar(45) NOT NULL,
   `category` varchar(50) DEFAULT NULL,
   `sex` enum('Male','Female') DEFAULT NULL,
+  `hold_status` tinyint(1) default 0,
   PRIMARY KEY (`patron_id`),
   UNIQUE (`user_id`,`password`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -458,7 +459,7 @@ CREATE TABLE `Patrons` (
 
 LOCK TABLES `Patrons` WRITE;
 /*!40000 ALTER TABLE `Patrons` DISABLE KEYS */;
-INSERT INTO `Patrons` VALUES ('F1','wwhite','wwhite','Walter','White','American',NULL,NULL,NULL,'Chemistry','Professor',NULL),('F2','gfring','gfring','Gustavo','Fring','American',NULL,NULL,NULL,'Chemistry','Assistant Professor',NULL),('F3','hschrad','hschrad','Hank','Schrader','American',NULL,NULL,NULL,'Chemistry','Associate Professor',NULL),('F4','swhite','swhite','Skyler','White','American',NULL,NULL,NULL,'Chemistry','Professor',NULL),('S1','jpink','jpink','Jesse','Pinkman','American','123456789','123456787','1988-10-03','Chemistry','First Year','Male'),('S2','wjr','wjr','Walt','Jr.','American','123456780','123456781','1988-11-03','Chemistry','Second Year','Male'),('S3','gboet','gboet','Gale','Boetticher','Chile','123456782','123456783','1988-12-03','Chemistry','Third Year','Male'),('S4','sgood','sgood','Saul','Goodman','American','123456784','123456785','1988-01-03','Chemistry','Second Year','Male');
+INSERT INTO `Patrons` VALUES ('F1','wwhite','wwhite','Walter','White','American',NULL,NULL,NULL,'Chemistry','Professor',NULL,default),('F2','gfring','gfring','Gustavo','Fring','American',NULL,NULL,NULL,'Chemistry','Assistant Professor',NULL,default),('F3','hschrad','hschrad','Hank','Schrader','American',NULL,NULL,NULL,'Chemistry','Associate Professor',NULL,default),('F4','swhite','swhite','Skyler','White','American',NULL,NULL,NULL,'Chemistry','Professor',NULL,default),('S1','jpink','jpink','Jesse','Pinkman','American','123456789','123456787','1988-10-03','Chemistry','First Year','Male',default),('S2','wjr','wjr','Walt','Jr.','American','123456780','123456781','1988-11-03','Chemistry','Second Year','Male',default),('S3','gboet','gboet','Gale','Boetticher','Chile','123456782','123456783','1988-12-03','Chemistry','Third Year','Male',default),('S4','sgood','sgood','Saul','Goodman','American','123456784','123456785','1988-01-03','Chemistry','Second Year','Male',default);
 /*!40000 ALTER TABLE `Patrons` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -512,9 +513,10 @@ DROP TABLE IF EXISTS `Pub_checkout`;
 CREATE TABLE `Pub_checkout` (
   `patron_id` varchar(50) NOT NULL,
   `pub_id` varchar(50) NOT NULL,
-  `out_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `out_date` datetime,
   `due_date` datetime NOT NULL,
   `status` varchar(25) NOT NULL,
+  `return_date` datetime DEFAULT NULL,
   PRIMARY KEY (`patron_id`,`pub_id`),
   KEY `pub_id` (`pub_id`),
   CONSTRAINT `Pub_checkout_ibfk_1` FOREIGN KEY (`patron_id`) REFERENCES `Patrons` (`patron_id`),
@@ -528,7 +530,7 @@ CREATE TABLE `Pub_checkout` (
 
 LOCK TABLES `Pub_checkout` WRITE;
 /*!40000 ALTER TABLE `Pub_checkout` DISABLE KEYS */;
-INSERT INTO `Pub_checkout` VALUES ('S1','B2','2015-11-01','2015-11-08','Available'),('S4','B4','2015-11-01','2015-11-06','Available'),('S2','B4','2015-07-01','2015-08-08','Available'),('S3','B2','2015-10-01','2015-10-10','Available');
+INSERT INTO `Pub_checkout` VALUES ('S1','B2','2015-11-01','2015-11-08','Available',default),('S4','B4','2015-11-01','2015-11-06','Available',default),('S2','B4','2015-07-01','2015-08-08','Available',default),('S3','B2','2015-10-01','2015-10-10','Available',default);
 /*!40000 ALTER TABLE `Pub_checkout` ENABLE KEYS */;
 UNLOCK TABLES;
 
